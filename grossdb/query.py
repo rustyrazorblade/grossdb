@@ -12,8 +12,8 @@ class QueryPlan(object):
         self._operations = []
         self._db = db
 
-    def select(self, table):
-        self._operations.append(TableScan(table))
+    def select(self, table, predicates=None):
+        self._operations.append(TableScan(table, predicates))
         return self
 
     def optimize(self):
@@ -28,6 +28,9 @@ class QueryPlan(object):
 
         return results
 
+    def __repr__(self):
+        result = ""
+        return result
 
 
 class QueryOperation(object):
@@ -36,9 +39,14 @@ class QueryOperation(object):
 
 class TableScan(QueryOperation):
     _table = None
+    _predicates = None
 
-    def __init__(self, table):
+    def __init__(self, table, predicates=None):
+        if predicates:
+            assert isinstance(predicates, (QueryOperation, AndOperation, OrOperation))
+            
         self._table = table
+        self._predicates = predicates
 
     def execute(self, results):
         # returns a new Results
@@ -47,6 +55,12 @@ class TableScan(QueryOperation):
             logger.debug("Scanning table")
             r._rows.append(row)
         return r
+
+    def __str__(self):
+        return "TableScan <{}>".format(self._table._name)
+
+    def __repr__(self):
+        return "TableScan <{}>".format(self._table._name)
 
 
 class AndOperation(QueryOperation):

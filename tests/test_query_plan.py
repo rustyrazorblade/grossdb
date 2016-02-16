@@ -5,6 +5,7 @@ from grossdb.query import QueryPlan
 from grossdb.results import Results
 from grossdb.row import Row
 
+import logging
 
 @fixture
 def db():
@@ -26,4 +27,5 @@ def test_select(db):
 
     assert len(results) == 1
 
-
+def test_select_with_predicate(db):
+    tab = db.get_table("test")
