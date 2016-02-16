@@ -19,6 +19,7 @@ class Table(object):
 
     def insert(self, row):
         # TODO schema validation
+        # TODO accept a Row class or kwargs maybe?
         record_id = self._total + 1
         self._rows[record_id] = row
         self._total += 1

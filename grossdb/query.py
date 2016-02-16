@@ -1,6 +1,8 @@
 # from copy import deepcopy
+import logging
 from grossdb.results import Results
 
+logger = logging.getLogger(__name__)
 
 class QueryPlan(object):
     _operations = None
@@ -11,7 +13,7 @@ class QueryPlan(object):
         self._db = db
 
     def select(self, table):
-        self._operations.append(SelectOperation(table))
+        self._operations.append(TableScan(table))
         return self
 
     def optimize(self):
@@ -19,8 +21,12 @@ class QueryPlan(object):
         pass
 
     def execute(self):
-        r = Results()
-        return r
+        results = Results()
+        for ops in self._operations:
+            logger.debug("exec")
+            results = ops.execute(results)
+
+        return results
 
 
 
@@ -28,11 +34,18 @@ class QueryOperation(object):
     pass
 
 
-class SelectOperation(QueryOperation):
+class TableScan(QueryOperation):
     _table = None
 
     def __init__(self, table):
         self._table = table
+
+    def execute(self, results):
+        # returns a new Results
+        r = Results()
+        for row in self._table._rows:
+            r._rows.append(row)
+        return r
 
 
 class AndOperation(QueryOperation):
