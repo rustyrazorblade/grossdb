@@ -1,3 +1,4 @@
+# from copy import deepcopy
 
 class QueryPlan(object):
     _operations = None
@@ -7,9 +8,16 @@ class QueryPlan(object):
         self._operations = []
         self._db = db
 
+    def select(self, table):
+        self._operations.append(SelectOperation(table))
+
     def optimize(self):
         # returns a new, optimized query plan
         pass
+
+    def execute(self):
+        pass
+
 
 
 class QueryOperation(object):
@@ -18,7 +26,7 @@ class QueryOperation(object):
 
 class SelectOperation(QueryOperation):
     _table = None
-    
+
     def __init__(self, table):
         self._table = table
 
