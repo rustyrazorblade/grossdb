@@ -6,3 +6,5 @@ def test_basic_db_operations():
     tab = db.create_table("test")
 
     tab.insert(Row(name="jon", age="34"))
+
+    assert tab._total == 1
