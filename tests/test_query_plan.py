@@ -1,7 +1,7 @@
 from pytest import fixture
 
 from grossdb.db import DB
-from grossdb.query import QueryPlan
+from grossdb.query import QueryPlan, Field
 from grossdb.results import Results
 from grossdb.row import Row
 from grossdb.query import PredicateFilter
@@ -32,9 +32,13 @@ def test_select_with_predicate(db):
     test = db.get_table("test")
     test.insert(Row(name="dave", age=44))
     results = db.query().select(test,
-                                PredicateFilter("name",
+                                PredicateFilter(Field("name"),
                                                 operator.eq,
                                                 "jon")).execute()
     assert isinstance(results, Results)
 
     assert len(results) == 1
+
+def test_evaluate_row():
+    row = Row(name="jon", age=34)
+    pred = PredicateFilter(Field("name"), operator.eq, "jon")

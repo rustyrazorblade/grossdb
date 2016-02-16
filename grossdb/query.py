@@ -1,6 +1,8 @@
 # from copy import deepcopy
 from __future__ import print_function
 import logging
+from collections import namedtuple
+
 from grossdb.results import Results
 
 logger = logging.getLogger(__name__)
@@ -74,6 +76,7 @@ class OrOperation(QueryOperation):
     # takes 2 predicates
     pass
 
+Field = namedtuple("Field", ["name"])
 
 class PredicateFilter(QueryOperation):
     _lhs = None # usually a field, but could be a function on a field
@@ -83,6 +86,18 @@ class PredicateFilter(QueryOperation):
         self._lhs = lhs
         self._op = op
         self._rhs = rhs
+
+    def evaluate_row(self, row):
+        # helper function
+        # returns true if row satisfies predicate
+        # if lhs is a field, we use the value of that field off the row
+
+        if isinstance(self._lhs, Field):
+            lhs = row[self._lhs.name]
+
+        if isinstance(self._rhs, Field):
+            lhs = row[self._lhs.name]
+        # field =
 
 
 class IndexQuery(QueryOperation):
