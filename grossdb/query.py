@@ -57,6 +57,11 @@ class TableScan(QueryOperation):
         r = Results()
         for row in self._table._rows.itervalues():
             logger.debug("Scanning table")
+
+            # evalate predicates, if any
+            if self._predicates and not self._predicates.evaluate_row(row):
+                continue
+
             r._rows.append(row)
         return r
 
@@ -94,10 +99,15 @@ class PredicateFilter(QueryOperation):
 
         if isinstance(self._lhs, Field):
             lhs = row[self._lhs.name]
+        else: # TODO add function support
+            lhs = self._lhs
 
         if isinstance(self._rhs, Field):
-            lhs = row[self._lhs.name]
-        # field =
+            rhs = row[self._rhs.name]
+        else:
+            rhs = self._rhs
+
+        return self._op(lhs, rhs)
 
 
 class IndexQuery(QueryOperation):

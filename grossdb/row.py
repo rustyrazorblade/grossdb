@@ -4,3 +4,6 @@ class Row(object):
 
     def __init__(self, **values):
         self._data = values
+
+    def __getitem__(self, item):
+        return self._data[item]
