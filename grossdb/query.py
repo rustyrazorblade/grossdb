@@ -43,7 +43,8 @@ class TableScan(QueryOperation):
     def execute(self, results):
         # returns a new Results
         r = Results()
-        for row in self._table._rows:
+        for row in self._table._rows.itervalues():
+            logger.debug("Scanning table")
             r._rows.append(row)
         return r
 

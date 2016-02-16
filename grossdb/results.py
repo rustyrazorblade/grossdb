@@ -9,5 +9,5 @@ class Results(object):
         self._rows = []
 
     def __len__(self):
-        return self._total
+        return len(self._rows)
 
