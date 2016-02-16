@@ -5,6 +5,7 @@ class Table(object):
     _rows = None
     _indexes = None
     _name = None
+    _total = 0
 
     def __init__(self, name):
         self._rows = {}
@@ -18,7 +19,9 @@ class Table(object):
 
     def insert(self, row):
         # TODO schema validation
-        pass
+        record_id = self._total + 1
+        self._rows[record_id] = row
+        self._total += 1
 
 
 
