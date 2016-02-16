@@ -1,9 +1,11 @@
 
 class QueryPlan(object):
     _operations = None
+    _db = None
 
-    def __init__(self):
+    def __init__(self, db):
         self._operations = []
+        self._db = db
 
     def optimize(self):
         # returns a new, optimized query plan
@@ -15,7 +17,10 @@ class QueryOperation(object):
 
 
 class SelectOperation(QueryOperation):
-    pass
+    _table = None
+    
+    def __init__(self, table):
+        self._table = table
 
 
 class AndOperation(QueryOperation):

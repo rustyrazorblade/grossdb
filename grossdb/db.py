@@ -1,4 +1,5 @@
 from .table import Table
+from .query import QueryPlan
 
 class DB(object):
     _tables = None
@@ -11,3 +12,6 @@ class DB(object):
         table = Table(name)
         self._tables[name] = table
         return table
+
+    def query(self):
+        return QueryPlan(self)
