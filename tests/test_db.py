@@ -8,3 +8,4 @@ def test_basic_db_operations():
     tab.insert(Row(name="jon", age="34"))
 
     assert tab._total == 1
+
