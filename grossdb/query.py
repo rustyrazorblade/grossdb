@@ -10,6 +10,7 @@ class QueryPlan(object):
 
     def select(self, table):
         self._operations.append(SelectOperation(table))
+        return self
 
     def optimize(self):
         # returns a new, optimized query plan

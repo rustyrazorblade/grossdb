@@ -15,3 +15,6 @@ class DB(object):
 
     def query(self):
         return QueryPlan(self)
+
+    def get_table(self, name):
+        return self._tables[name]
