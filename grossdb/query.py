@@ -1,4 +1,6 @@
 # from copy import deepcopy
+from grossdb.results import Results
+
 
 class QueryPlan(object):
     _operations = None
@@ -17,7 +19,8 @@ class QueryPlan(object):
         pass
 
     def execute(self):
-        pass
+        r = Results()
+        return r
 
 
 

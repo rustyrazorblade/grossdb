@@ -1,8 +1,8 @@
-
 from pytest import fixture
 
 from grossdb.db import DB
 from grossdb.query import QueryPlan
+from grossdb.results import Results
 
 
 @fixture
@@ -18,5 +18,8 @@ def test_select(db):
     plan = db.query().select(tab)
     assert isinstance(plan, QueryPlan)
 
+    results = plan.execute()
+
+    assert isinstance(results, Results)
 
 
