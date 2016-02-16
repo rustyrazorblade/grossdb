@@ -74,7 +74,14 @@ class TableScan(QueryOperation):
 
 class AndOperation(QueryOperation):
     # takes 2 predicates
-    pass
+    _lhs = None
+    _rhs = None
+    def __init__(self, lhs, rhs):
+        self._lhs = lhs
+        self._rhs = rhs
+
+    def evaluate_row(self, row):
+        return self._lhs.evaluate_row(row) and self._rhs.evaluate_row(row)
 
 
 class OrOperation(QueryOperation):

@@ -1,7 +1,7 @@
 from pytest import fixture
 
 from grossdb.db import DB
-from grossdb.query import QueryPlan, Field
+from grossdb.query import QueryPlan, Field, AndOperation
 from grossdb.results import Results
 from grossdb.row import Row
 from grossdb.query import PredicateFilter
@@ -46,4 +46,16 @@ def test_evaluate_row():
     assert pred.evaluate_row(row)
 
     pred = PredicateFilter(Field("name"), operator.eq, "steve")
+    assert not pred.evaluate_row(row)
+
+def test_and_operation():
+    row = Row(name="jon", age=34)
+    pred1 = PredicateFilter(Field("name"), operator.eq, "jon")
+    pred2 = PredicateFilter(Field("age"), operator.eq, 34)
+    pred = AndOperation(pred1, pred2)
+
+    assert pred.evaluate_row(row)
+    pred1 = PredicateFilter(Field("name"), operator.eq, "jon")
+    pred2 = PredicateFilter(Field("age"), operator.eq, 100)
+    pred = AndOperation(pred1, pred2)
     assert not pred.evaluate_row(row)
