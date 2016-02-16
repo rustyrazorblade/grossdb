@@ -12,3 +12,14 @@ class Table(object):
         self._indexes = {}
 
 
+    def add_field(self, name, type):
+        pass
+
+
+    def insert(self, row):
+        # TODO schema validation
+        pass
+
+
+
+

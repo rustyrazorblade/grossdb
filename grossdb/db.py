@@ -8,5 +8,6 @@ class DB(object):
 
     def create_table(self, name):
         # TODO check if table exists first
-        table = Table()
+        table = Table(name)
         self._tables[name] = table
+        return table
