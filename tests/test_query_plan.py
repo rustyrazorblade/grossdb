@@ -42,3 +42,8 @@ def test_select_with_predicate(db):
 def test_evaluate_row():
     row = Row(name="jon", age=34)
     pred = PredicateFilter(Field("name"), operator.eq, "jon")
+
+    assert pred.evaluate_row(row)
+
+    pred = PredicateFilter(Field("name"), operator.eq, "steve")
+    assert not pred.evaluate_row(row)
