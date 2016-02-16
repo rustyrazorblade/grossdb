@@ -4,7 +4,8 @@ from grossdb.db import DB
 from grossdb.query import QueryPlan
 from grossdb.results import Results
 from grossdb.row import Row
-
+from grossdb.query import PredicateFilter
+import operator
 import logging
 
 @fixture
@@ -28,4 +29,12 @@ def test_select(db):
     assert len(results) == 1
 
 def test_select_with_predicate(db):
-    tab = db.get_table("test")
+    test = db.get_table("test")
+    test.insert(Row(name="dave", age=44))
+    results = db.query().select(test,
+                                PredicateFilter("name",
+                                                operator.eq,
+                                                "jon")).execute()
+    assert isinstance(results, Results)
+
+    assert len(results) == 1

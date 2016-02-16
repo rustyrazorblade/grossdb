@@ -20,6 +20,7 @@ class QueryPlan(object):
         # returns a new, optimized query plan
         pass
 
+
     def execute(self):
         results = Results()
         for ops in self._operations:
@@ -43,8 +44,8 @@ class TableScan(QueryOperation):
 
     def __init__(self, table, predicates=None):
         if predicates:
-            assert isinstance(predicates, (QueryOperation, AndOperation, OrOperation))
-            
+            assert isinstance(predicates, (PredicateFilter, AndOperation, OrOperation))
+
         self._table = table
         self._predicates = predicates
 
@@ -74,7 +75,13 @@ class OrOperation(QueryOperation):
 
 
 class PredicateFilter(QueryOperation):
-    pass
+    _lhs = None # usually a field, but could be a function on a field
+    _op = None
+    _rhs = None #right hand side derp
+    def __init__(self, lhs, op, rhs):
+        self._lhs = lhs
+        self._op = op
+        self._rhs = rhs
 
 
 class IndexQuery(QueryOperation):
